@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pertanyaan Biar Ga Gila</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <header>
+        Pertanyaan Biar Ga Gila
+    </header>
+    
+    <div class="container" id="mainContent">
+        <h2>Pertanyaan Biar Waras</h2>
+        <iframe src="https://pdf.ai/share/embed/clx0g67fa0018jp0cklzv672c" loading="lazy" frameborder="0" scrolling="no" width="100%" height="800px"></iframe>
+        <button onclick="openModal()">Butuh teman cerita? Daftarkan Nomor telepon disini ya :)</button>
+    </div>
+
+    <div id="overlay" onclick="closeModal()"></div>
+    <div id="modal">
+        <h2>Masukkan Nomor Telepon</h2>
+        <input type="text" id="phoneNumber" placeholder="Masukkan Nomor Telepon">
+        <button onclick="sendMessage()">Kirim</button>
+    </div>
+    
+    <footer>
+        © 2024 Pertanyaan Biar Ga Gila
+    </footer>
+    
+    <script>
+        function openModal() {
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        async function sendMessage() {
+            const apiKey = 'JeQevajrtkP8qpM3lsNqYV02jkNujJ'; // Replace with your actual API key
+            const sender = '+6285591448780'; // Replace with your actual sender number
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const message = `Halo penggguna kami yang selalu kuat dan bahagia,\n\n` +
+                            `Terima kasih sudah menggunakan layanan kami. Kami ingin mengingatkanmu bahwa setiap langkah kecil yang kamu ambil dalam perjalanan ini adalah pencapaian yang luar biasa.\n\n` +
+                            `Jangan pernah merasa sendirian, kami selalu ada di sini untuk mendukungmu. Tetaplah bersemangat dan yakinlah bahwa kamu memiliki kekuatan untuk melewati semua tantangan.\n\n` +
+                            `Salam hangat,\n` +
+                            `Tim Kelompok 2`; // Pesan motivasi dengan baris baru
+
+            if (!phoneNumber) {
+                alert('Masukkan nomor telepon!');
+                return;
+            }
+
+            const url = `https://wa.labinformatika.com/send-message?api_key=${apiKey}&sender=${sender}&number=${phoneNumber}&message=${encodeURIComponent(message)}`;
+
+            try {
+                console.log('Sending message with URL:', url);
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    const result = await response.json();
+                    console.error('Response error:', result);
+                    alert('Gagal mengirim pesan: ' + result.message);
+                } else {
+                    const result = await response.json();
+                    console.log('Response success:', result);
+                    alert('Pesan motivasi berhasil dikirim');
+                    closeModal();
+                    window.location.href = 'index.html'; // Mengarahkan kembali ke halaman utama
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                alert("Pesan Berhasil Terkirim");
+                closeModal();
+                window.location.href = 'index.html'; // Mengarahkan kembali ke halaman utama
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        window.onload = function() {
+            document.getElementById('mainContent').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
